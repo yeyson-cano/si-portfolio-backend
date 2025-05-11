@@ -1,4 +1,32 @@
+# Byte-compiled / cache
 __pycache__/
-*.pyc
+*.py[cod]
+
+# Entorno local
 .env
-.env.*
+.venv/
+venv/
+*.egg-info/
+
+# Logs
+*.log
+
+# Docker
+*.env.local
+docker-compose.override.yml
+
+# Conda env export
+/environment.yml
+
+# Uvicorn reload file
+reload.db
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# Ignora sólo artefactos de Alembic, no los scripts de migración
+alembic/*.pyc
+alembic/__pycache__/
