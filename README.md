@@ -49,7 +49,7 @@ Este servicio ofrece:
 
 1. **Clona el repositorio**  
    ```bash
-   git clone git@github.com:TU_USUARIO/si-portfolio-backend.git
+   git clone https://github.com/yeyson-cano/si-portfolio-backend.git
    cd si-portfolio-backend
    ```
 
