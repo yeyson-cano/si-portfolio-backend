@@ -63,15 +63,9 @@ Este servicio ofrece:
 
 4. **Inicializa la base de datos**
 
-   * Con migraciones Alembic:
-
      ```bash
-     make db-migrate
-     ```
-   * Con script directo (opcional):
-
-     ```bash
-     make db-init
+     docker-compose exec backend \
+     bash -c "conda run -n si-backend python -m app.models.init_db"
      ```
 
 5. **Verifica**
@@ -119,17 +113,3 @@ Este servicio ofrece:
   ```
 
 ---
-
-## 🛠 Makefile
-
-```makefile
-.PHONY: db-init db-migrate
-
-db-init:
-	docker-compose exec backend \
-		conda run -n si-backend python -m app.models.init_db
-
-db-migrate:
-	docker-compose exec backend \
-		conda run -n si-backend alembic upgrade head
-```

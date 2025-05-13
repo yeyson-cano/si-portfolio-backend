@@ -1,9 +1,12 @@
+import os
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 # URL de conexión a PostgreSQL (ajusta usuario, contraseña, host, puerto y nombre de BD)
-DATABASE_URL = "postgresql+asyncpg://usuario:password@localhost/si_portfolio"
-
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+asyncpg://si_user:si_password_segura@db/si_portfolio"
+)
 # Creamos el engine asíncrono
 engine = create_async_engine(
     DATABASE_URL,

@@ -17,4 +17,4 @@ class ProjectOut(ProjectBase):
     files: List[FileMetaOut] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
