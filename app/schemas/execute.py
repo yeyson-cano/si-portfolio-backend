@@ -28,11 +28,17 @@ class FinalOutNN(BaseModel):
     steps: List[Dict[str, Any]]
     final_weights: Dict[str, Any]
 
+class FinalOutVision(BaseModel):
+    type: Literal["vision"]
+    prediction: str
+    confidence: float
+
 class ExecuteResult(BaseModel):
     history: List[EpochStats] = []
     first_epoch: Optional[FirstEpochOut] = None
     final: Union[
         FinalOutGenetic, 
         FinalOutNB, 
-        FinalOutNN
+        FinalOutNN,
+        FinalOutVision
         ]

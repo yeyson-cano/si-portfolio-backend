@@ -18,6 +18,9 @@ RUN conda env create -f environment.yml && \
 # 5. Copiar el resto del código al contenedor
 COPY . .
 
+# 5.1 Copiar carpeta de modelos entrenados
+COPY saved_models ./saved_models
+
 # 6. Exponer el puerto de la API
 EXPOSE 8000
 
