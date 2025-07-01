@@ -37,6 +37,18 @@ Este servicio ofrece:
    - Entrada: imagen JPG o PNG subida por el usuario  
    - Salida: clase predicha y nivel de confianza
 
+5. **Reconocimiento de Entidades Nombradas (NER)** ✅  
+   - Modelo BERT preentrenado para extraer entidades tipo persona (PER), organización (ORG), ubicación (LOC), etc.  
+   - Entrada: texto plano  
+   - Salida: lista de entidades reconocidas con su tipo y nivel de confianza  
+   - **Ejemplo CURL con autenticación básica:**  
+     ```bash
+     curl -X POST http://TU_IP_PUBLICA:8000/execute/ner \
+     -u admin:admin123 \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "text=Pedro Sánchez es el presidente del Gobierno de España."
+     ```
+
 ---
 
 ## 🚀 Tecnologías
@@ -45,6 +57,7 @@ Este servicio ofrece:
 - **PostgreSQL 15**  
 - **SQLAlchemy (asyncio)** + **asyncpg**  
 - **TensorFlow** + **Pillow** para procesamiento de imágenes  
+- **Transformers (HuggingFace)** para NER  
 - **Conda** (Miniforge) dentro de Docker  
 - **Docker & Docker Compose**  
 - **scikit-learn**, **pandas**, **numpy**, **requests**, **python-multipart**
