@@ -4,17 +4,23 @@ channels:
   - conda-forge
 
 dependencies:
-  - python=3.13
+  - python=3.10
   - pandas
   - numpy
   - scikit-learn
-  - requests
+  - matplotlib
   - pip
+  - pillow
 
   - pip:
-    - fastapi
-    - uvicorn
-    - pydantic
-    - sqlalchemy[asyncio]
-    - asyncpg
-    - alembic
+      - fastapi
+      - uvicorn
+      - pydantic
+      - sqlalchemy[asyncio]
+      - asyncpg
+      - alembic
+      - tensorflow
+      - tensorflow-datasets
+      - python-multipart
+      - transformers
+      - torch

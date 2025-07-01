@@ -22,11 +22,19 @@ class FinalOutGenetic(BaseModel):
 class FinalOutNB(BaseModel):
     metrics: Dict[str, Any]
     confusion: Optional[Dict[str, Any]] = None
-    samples:   Optional[List[Any]]   = None
+    samples: Optional[List[Any]] = None
 
 class FinalOutNN(BaseModel):
     steps: List[Dict[str, Any]]
     final_weights: Dict[str, Any]
+
+class FinalOutVision(BaseModel):
+    type: Literal["vision"]
+    prediction: str
+    confidence: float
+
+class FinalOutNER(BaseModel):
+    entities: List[Dict[str, str | float]]
 
 class ExecuteResult(BaseModel):
     history: List[EpochStats] = []
@@ -34,5 +42,7 @@ class ExecuteResult(BaseModel):
     final: Union[
         FinalOutGenetic, 
         FinalOutNB, 
-        FinalOutNN
-        ]
+        FinalOutNN,
+        FinalOutVision,
+        FinalOutNER
+    ]

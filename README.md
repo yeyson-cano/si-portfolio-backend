@@ -9,9 +9,9 @@ Todo el entorno de ejecución (Conda, dependencias y base de datos) se orquesta 
 
 Este servicio ofrece:
 
-- Metadatos de proyectos (Genético, Naive Bayes, Red Neuronal)  
+- Metadatos de proyectos (Genético, Naive Bayes, Red Neuronal, Visión por Computadora)  
 - Archivos asociados (scripts, datos, notebooks, videos)  
-- Ejecución dinámica de cada algoritmo con parámetros a medida  
+- Ejecución dinámica de cada algoritmo con parámetros a medida o entrada por imagen  
 
 ---
 
@@ -32,6 +32,11 @@ Este servicio ofrece:
    - Parámetros: pesos iniciales (entrada→oculta y oculta→salida), dataset, tasa de aprendizaje.  
    - Salida: detalle de forward/backprop para cada muestra y pesos finales.
 
+4. **Visión por Computadora (CNN)**  
+   - Clasificación de flores (daisy, dandelion, roses, sunflowers, tulips)  
+   - Entrada: imagen JPG o PNG subida por el usuario  
+   - Salida: clase predicha y nivel de confianza
+
 ---
 
 ## 🚀 Tecnologías
@@ -39,9 +44,10 @@ Este servicio ofrece:
 - **FastAPI** + **Uvicorn**  
 - **PostgreSQL 15**  
 - **SQLAlchemy (asyncio)** + **asyncpg**  
+- **TensorFlow** + **Pillow** para procesamiento de imágenes  
 - **Conda** (Miniforge) dentro de Docker  
 - **Docker & Docker Compose**  
-- **scikit-learn**, **pandas**, **numpy**, **requests**  
+- **scikit-learn**, **pandas**, **numpy**, **requests**, **python-multipart**
 
 ---
 
@@ -63,10 +69,10 @@ Este servicio ofrece:
 
 4. **Inicializa la base de datos**
 
-     ```bash
-     docker-compose exec backend \
-     bash -c "conda run -n si-backend python -m app.models.init_db"
-     ```
+   ```bash
+   docker-compose exec backend \
+   bash -c "conda run -n si-backend python -m app.models.init_db"
+   ```
 
 5. **Verifica**
 
@@ -85,10 +91,11 @@ Este servicio ofrece:
 │   ├── db.py           # Configuración de SQLAlchemy
 │   ├── main.py         # Punto de entrada FastAPI
 │   ├── models/         # Modelos SQLAlchemy
-│   ├── repository.py   # Capa de acceso a datos
+│   ├── repository.py   # Capa de acceso a datos y ejecución
 │   ├── routes/         # Routers de FastAPI
 │   └── schemas/        # Esquemas Pydantic
 ├── data/               # Datos estáticos (p.ej. SMSSpamCollection.csv)
+├── saved_models/       # Modelos entrenados (e.g. CNN de flores)
 ├── environment.yml     # Definición de entorno Conda
 ├── Dockerfile          # Imagen con Conda y Uvicorn
 ├── docker-compose.yml  # Orquesta servicios: postgres + backend
@@ -103,13 +110,14 @@ Este servicio ofrece:
 * **GET** `/projects/{project_id}`
 * **GET** `/files/projects/{project_id}/files`
 * **GET** `/files/{file_id}`
-* **POST** `/execute/{algorithm_key}`
 
-  ```json
-  {
-    "params": { /* según algoritmo */ },
-    "verbosity": "first"|"all"|"final"
-  }
-  ```
+### 📥 POST `/execute/{algorithm_key}`
 
----
+Para algoritmos tradicionales (genetic, nb, nn):
+
+```json
+{
+  "params": { /* según algoritmo */ },
+  "verbosity": "first" | "all" | "final"
+}
+```

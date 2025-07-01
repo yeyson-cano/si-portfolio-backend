@@ -1,5 +1,3 @@
-# Dockerfile
-
 # 1. Imagen base con Miniforge (Conda ligero)
 FROM condaforge/miniforge3
 
@@ -18,11 +16,14 @@ RUN conda env create -f environment.yml && \
 # 5. Copiar el resto del código al contenedor
 COPY . .
 
-# 6. Exponer el puerto de la API
+# 6. Descargar el modelo NER en la etapa de construcción
+RUN conda run -n si-backend python app/scripts/download_ner_model.py
+
+# 7. Exponer el puerto de la API
 EXPOSE 8000
 
-# 7. ENTRYPOINT para ejecutar todo dentro del entorno Conda 'si-backend'
+# 8. ENTRYPOINT para ejecutar todo dentro del entorno Conda 'si-backend'
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "si-backend", "python", "-m"]
 
-# 8. CMD por defecto: arranca Uvicorn en modo reload para desarrollo
+# 9. CMD por defecto: arranca Uvicorn en modo reload para desarrollo
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

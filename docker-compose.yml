@@ -27,6 +27,7 @@ services:
     volumes:
       - .:/app
       - ./data:/data
+      - ./saved_models:/app/saved_models
     ports:
       - "8000:8000"
 
