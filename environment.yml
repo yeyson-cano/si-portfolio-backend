@@ -13,12 +13,14 @@ dependencies:
   - pillow
 
   - pip:
-    - fastapi
-    - uvicorn
-    - pydantic
-    - sqlalchemy[asyncio]
-    - asyncpg
-    - alembic
-    - tensorflow
-    - tensorflow-datasets
-    - python-multipart
+      - fastapi
+      - uvicorn
+      - pydantic
+      - sqlalchemy[asyncio]
+      - asyncpg
+      - alembic
+      - tensorflow
+      - tensorflow-datasets
+      - python-multipart
+      - transformers
+      - torch
