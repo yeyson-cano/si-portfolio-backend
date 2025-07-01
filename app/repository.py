@@ -19,7 +19,8 @@ from app.schemas.execute import (
 from app.algorithms.genetic import run_genetic
 from app.algorithms.nb import run_naive_bayes
 from app.algorithms.nn import run_nn_manual
-from app.algorithms.vision import run_vision_image  # <- asegúrate de tenerlo
+from app.algorithms.vision import run_vision_image
+from app.algorithms.ner import run_ner_text  # ✅ NUEVO
 
 from fastapi import UploadFile
 import json
@@ -64,7 +65,7 @@ async def get_file(file_id: str) -> FileMetaOut:
         raise ValueError(f"File with id '{file_id}' not found")
     return FileMetaOut.from_orm(file_obj)
 
-# 🚨 Este es el que cambia
+# 🚨 Ejecuta el algoritmo correspondiente
 async def execute_algorithm(
     algorithm_key: str,
     params_json: Optional[str] = None,
@@ -89,6 +90,12 @@ async def execute_algorithm(
         if not file:
             raise ValueError("Se requiere un archivo de imagen para el algoritmo de visión.")
         raw = run_vision_image(file)
+
+    elif algorithm_key == "ner":
+        if not params_json:
+            raise ValueError("Se requiere texto como entrada para NER.")
+        params = ExecuteParams(**json.loads(params_json))
+        raw = run_ner_text(params.params["text"], params.verbosity)
 
     else:
         raise ValueError(f"Unknown algorithm key: {algorithm_key}")
